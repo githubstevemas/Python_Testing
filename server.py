@@ -8,6 +8,12 @@ def loadClubs():
         return listOfClubs
 
 
+def saveClub(clubs):
+
+    with open('clubs.json', 'w') as c:
+        json.dump({'clubs': clubs}, c)
+
+
 def loadCompetitions():
     with open('competitions.json') as comps:
         listOfCompetitions = json.load(comps)['competitions']
@@ -65,8 +71,12 @@ def purchasePlaces():
         return render_template('welcome.html', club=club,
                                competitions=competitions)
 
+    club['points'] = str(int(club['points']) - placesRequired)
+    saveClub(clubs)
+
     competition['numberOfPlaces'] = int(
         competition['numberOfPlaces']) - placesRequired
+
     flash('Great-booking complete!')
 
     return render_template('welcome.html', club=club,
