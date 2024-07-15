@@ -66,3 +66,20 @@ def test_purchase_places(client, test_clubs, test_competitions, mocker):
 
     assert int(test_clubs[0]['points']) == 4
     assert b'Great-booking complete!' in response.data
+
+
+def test_login(client):
+
+    response = client.post('/showSummary', data={
+        'email': 'john@simplylift.co'
+    })
+    assert response.status_code == 200
+
+
+def test_wrong_login(client):
+
+    response = client.post('/showSummary', data={
+        'email': 'wrong-email@test.com'
+    })
+    assert response.status_code == 200
+    assert b'Wrong email-please try again' in response.data
