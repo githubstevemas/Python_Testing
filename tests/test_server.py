@@ -52,7 +52,6 @@ def test_has_sufficient_points(client):
 
 
 def test_update_points_after_purchase(client, test_clubs, test_competitions, mocker):
-
     mocker.patch('server.loadClubs', return_value=test_clubs)
     mocker.patch('server.loadCompetitions', return_value=test_competitions)
     mock_save_club = mocker.patch('server.saveClub')
@@ -87,3 +86,24 @@ def test_wrong_login(client):
     })
     assert response.status_code == 200
     assert b'Wrong email-please try again' in response.data
+
+
+def test_display_book_available(client):
+    test_club = loadClubs()[0]
+    test_competitions = loadCompetitions()
+
+    response = client.post('/showSummary', data={'email': test_club['email']})
+
+    assert response.status_code == 200
+    assert b'Number of Places: 25' in response.data
+
+
+def test_display_book_non_available(client, test_competition_full):
+
+    test_club = loadClubs()[0]
+
+    response = client.post('/showSummary', data={'email': test_club['email']})
+
+    assert response.status_code == 200
+    assert b'Spring Festival' in response.data
+    assert b'- Competition complete' in response.data
