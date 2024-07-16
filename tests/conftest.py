@@ -1,8 +1,7 @@
-import copy
 import pytest
 import json
 
-from server import app
+from server import app, competitions
 
 
 @pytest.fixture
@@ -22,3 +21,12 @@ def test_clubs():
 def test_competitions():
     with open('competitions.json') as comps:
         return json.load(comps)['competitions']
+
+
+@pytest.fixture
+def test_competition_full():
+    competitions[:] = [
+        {'name': 'Spring Festival',
+         'date': '2020-03-27 10:00:00',
+         'numberOfPlaces': '0'}
+    ]

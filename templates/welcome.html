@@ -7,7 +7,7 @@
 <body>
         <h2>Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}">Logout</a>
 
-    {% with messages = get_flashed_messages()%}
+    {% with messages = get_flashed_messages() %}
     {% if messages %}
         <ul>
        {% for message in messages %}
@@ -15,22 +15,24 @@
         {% endfor %}
        </ul>
     {% endif%}
-    Points available: {{club['points']}}
+    Points available: {{ club['points'] }}
     <h3>Competitions:</h3>
     <ul>
-        {% for comp in competitions%}
+        {% for comp in competitions %}
         <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}</br>
-            Number of Places: {{comp['numberOfPlaces']}}
-            {%if comp['numberOfPlaces']|int >0%}
-            <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
-            {%endif%}
+            <p>{{ comp['name'] }}</p>
+            <p>Date: {{ comp['date'] }}</p>
+            <p>Number of Places: {{ comp['numberOfPlaces'] }}</p>
+            {% if comp['numberOfPlaces']|int >0 %}
+                <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
+            {% else %}
+                <span>- Competition complete</span>
+            {% endif %}
         </li>
-        <hr />
+        <hr>
         {% endfor %}
     </ul>
-    {%endwith%}
+    {% endwith %}
 
 </body>
 </html>
