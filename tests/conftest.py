@@ -1,6 +1,7 @@
 import pytest
 import json
 
+import server
 from server import app, competitions
 
 
@@ -13,20 +14,29 @@ def client():
 
 @pytest.fixture
 def test_clubs():
-    with open('clubs.json') as c:
+    with open('tests/test_clubs.json') as c:
         return json.load(c)['clubs']
 
 
 @pytest.fixture
 def test_competitions():
-    with open('competitions.json') as comps:
+    with open('tests/test_competitions.json') as comps:
         return json.load(comps)['competitions']
 
 
 @pytest.fixture
 def test_competition_full():
     competitions[:] = [
-        {'name': 'Spring Festival',
+        {'name': 'Test Comptetition #3',
          'date': '2020-03-27 10:00:00',
          'numberOfPlaces': '0'}
     ]
+
+
+@pytest.fixture
+def setup_mocks(mocker, test_clubs, test_competitions):
+    mocker.patch('server.loadClubs', return_value=test_clubs)
+    mocker.patch('server.loadCompetitions', return_value=test_competitions)
+    mocker.patch('server.saveClub')
+    mocker.patch.object(server, 'clubs', test_clubs)
+    mocker.patch.object(server, 'competitions', test_competitions)
