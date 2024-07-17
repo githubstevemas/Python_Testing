@@ -9,7 +9,6 @@ def loadClubs():
 
 
 def saveClub(clubs):
-
     with open('clubs.json', 'w') as c:
         json.dump({'clubs': clubs}, c)
 
@@ -32,10 +31,19 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/clubs-points')
+def clubs_points():
+    return render_template(
+        'clubs-points.html',
+        clubs=clubs
+    )
+
+
 @app.route('/showSummary', methods=['POST'])
 def showSummary():
     try:
-        club = [club for club in clubs if club['email'] == request.form['email']][
+        club = \
+        [club for club in clubs if club['email'] == request.form['email']][
             0]
         return render_template('welcome.html', club=club,
                                competitions=competitions)
@@ -60,7 +68,8 @@ def book(competition, club):
 @app.route('/purchasePlaces', methods=['POST'])
 def purchasePlaces():
     competition = \
-    [c for c in competitions if c['name'] == request.form['competition']][0]
+        [c for c in competitions if c['name'] == request.form['competition']][
+            0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
 
     placesRequired = int(request.form['places'])
