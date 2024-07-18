@@ -32,7 +32,7 @@ def test_login_and_purchase():
     places_input = WebDriverWait(driver, 10).until(
         expected_conditions.presence_of_element_located((By.NAME, "places"))
     )
-    places_input.send_keys("8")
+    places_input.send_keys("1")
     places_input.send_keys(Keys.RETURN)
 
     body_text = WebDriverWait(driver, 10).until(
@@ -40,4 +40,4 @@ def test_login_and_purchase():
     ).text
     assert "Great-booking complete!" in body_text
 
-    time.sleep(20)
+    time.sleep(10)
