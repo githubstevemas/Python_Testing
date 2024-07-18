@@ -35,8 +35,6 @@ def test_competition_full():
 
 @pytest.fixture
 def setup_mocks(mocker, test_clubs, test_competitions):
-    mocker.patch('server.loadClubs', return_value=test_clubs)
-    mocker.patch('server.loadCompetitions', return_value=test_competitions)
-    mocker.patch('server.saveClub')
     mocker.patch.object(server, 'clubs', test_clubs)
     mocker.patch.object(server, 'competitions', test_competitions)
+    mocker.patch('server.saveClub')

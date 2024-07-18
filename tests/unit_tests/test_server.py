@@ -14,7 +14,12 @@ def test_purchase_places(client, test_clubs, test_competitions, setup_mocks):
     assert b'Great-booking complete!' in response.data
 
 
-def test_max_purchase_places(client, test_clubs, test_competitions, setup_mocks):
+def test_max_purchase_places(
+        client,
+        test_clubs,
+        test_competitions,
+        setup_mocks
+):
     places_to_purchase = 28
 
     response = client.post('/purchasePlaces', data={
@@ -27,7 +32,12 @@ def test_max_purchase_places(client, test_clubs, test_competitions, setup_mocks)
     assert b'Max purchase 12.' in response.data
 
 
-def test_has_sufficient_points(client, test_clubs, test_competitions, setup_mocks):
+def test_has_sufficient_points(
+        client,
+        test_clubs,
+        test_competitions,
+        setup_mocks
+):
     places_to_purchase = 9
 
     response = client.post('/purchasePlaces', data={
@@ -40,7 +50,12 @@ def test_has_sufficient_points(client, test_clubs, test_competitions, setup_mock
     assert b'Insufficiant points.' in response.data
 
 
-def test_update_points_after_purchase(client, test_clubs, test_competitions, setup_mocks):
+def test_update_points_after_purchase(
+        client,
+        test_clubs,
+        test_competitions,
+        setup_mocks
+):
     places_to_purchase = 9
 
     response = client.post('/purchasePlaces', data={

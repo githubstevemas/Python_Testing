@@ -4,8 +4,8 @@ from locust import HttpUser, task
 class UserBehavior(HttpUser):
 
     def on_start(self):
-        self.client.post("/showSummary",
-                                    data={"email": "john@simplylift.co"})
+        # Initialize session
+        self.client.post("/showSummary", data={"email": "john@simplylift.co"})
 
     @task(1)
     def index(self):

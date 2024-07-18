@@ -43,8 +43,8 @@ def clubs_points():
 def showSummary():
     try:
         club = \
-        [club for club in clubs if club['email'] == request.form['email']][
-            0]
+            [club for club in clubs if club['email'] == request.form['email']][
+                0]
         return render_template('welcome.html', club=club,
                                competitions=competitions)
     except IndexError:
@@ -94,9 +94,6 @@ def purchasePlaces():
 
     return render_template('welcome.html', club=club,
                            competitions=competitions)
-
-
-# TODO: Add route for points display
 
 
 @app.route('/logout')
