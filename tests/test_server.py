@@ -14,7 +14,10 @@ def test_purchase_places(client, test_clubs, test_competitions, setup_mocks):
     assert b'Great-booking complete!' in response.data
 
 
-def test_max_purchase_places(client, test_clubs, test_competitions, setup_mocks):
+def test_max_purchase_places(client,
+                             test_clubs,
+                             test_competitions,
+                             setup_mocks):
     places_to_purchase = 28
 
     response = client.post('/purchasePlaces', data={
@@ -27,7 +30,10 @@ def test_max_purchase_places(client, test_clubs, test_competitions, setup_mocks)
     assert b'Max purchase 12.' in response.data
 
 
-def test_has_sufficient_points(client, test_clubs, test_competitions, setup_mocks):
+def test_has_sufficient_points(client,
+                               test_clubs,
+                               test_competitions,
+                               setup_mocks):
     places_to_purchase = 9
 
     response = client.post('/purchasePlaces', data={
@@ -40,7 +46,10 @@ def test_has_sufficient_points(client, test_clubs, test_competitions, setup_mock
     assert b'Insufficiant points.' in response.data
 
 
-def test_update_points_after_purchase(client, test_clubs, test_competitions, setup_mocks):
+def test_update_points_after_purchase(client,
+                                      test_clubs,
+                                      test_competitions,
+                                      setup_mocks):
     places_to_purchase = 9
 
     response = client.post('/purchasePlaces', data={
@@ -54,7 +63,6 @@ def test_update_points_after_purchase(client, test_clubs, test_competitions, set
 
 
 def test_login(client):
-
     response = client.post('/showSummary', data={
         'email': 'john@simplylift.co'
     })
@@ -62,7 +70,6 @@ def test_login(client):
 
 
 def test_wrong_login(client):
-
     response = client.post('/showSummary', data={
         'email': 'wrong-email@test.com'
     })
@@ -71,7 +78,6 @@ def test_wrong_login(client):
 
 
 def test_display_book_available(client):
-
     test_club = loadClubs()[0]
 
     response = client.post('/showSummary', data={'email': test_club['email']})
@@ -81,7 +87,6 @@ def test_display_book_available(client):
 
 
 def test_display_book_non_available(client, test_competition_full):
-
     test_club = loadClubs()[0]
 
     response = client.post('/showSummary', data={'email': test_club['email']})
@@ -91,6 +96,18 @@ def test_display_book_non_available(client, test_competition_full):
 
 
 def test_display_points_table(client):
-
     response = client.get('/clubs-points')
     assert response.status_code == 200
+
+
+def test_purchase_completed_competition(client,
+                                        test_clubs,
+                                        test_competitions,
+                                        setup_mocks):
+
+    response = client.post('/showSummary', data={
+        'email': test_clubs[0]['email']
+    })
+
+    assert response.status_code == 200
+    assert b'Competition over' in response.data

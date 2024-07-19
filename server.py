@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, flash, url_for
 
 
@@ -26,6 +28,14 @@ competitions = loadCompetitions()
 clubs = loadClubs()
 
 
+@app.template_filter('is_date_passed')
+def is_date_passed(date_str):
+    date_format = "%Y-%m-%d %H:%M:%S"
+    date_to_check = datetime.strptime(date_str, date_format)
+    current_date = datetime.now()
+    return date_to_check < current_date
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -43,10 +53,14 @@ def clubs_points():
 def showSummary():
     try:
         club = \
-        [club for club in clubs if club['email'] == request.form['email']][
-            0]
-        return render_template('welcome.html', club=club,
-                               competitions=competitions)
+            [club for club in clubs if club['email'] == request.form['email']][
+                0]
+        return render_template(
+            'welcome.html',
+            club=club,
+            competitions=competitions,
+            datetime=datetime
+        )
     except IndexError:
         flash('Wrong email-please try again')
         return render_template('index.html')
